@@ -40,6 +40,7 @@ jobs:
   build-examples:
     name: Build Examples
     runs-on: ubuntu-latest
+    environment: publish_npm
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
