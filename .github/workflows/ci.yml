@@ -61,7 +61,7 @@ jobs:
             echo "NPM_TOKEN not set, skipping canary publish"
             exit 0
           fi
-          npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
+          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
           BRANCH=$(echo "${{ github.ref_name }}" | sed 's/[\/_]/-/g')
           CANARY_VERSION=$(node -p "require('./package.json').version + '-${BRANCH}.${GITHUB_SHA::8}'")
           npm pkg set version="$CANARY_VERSION"
