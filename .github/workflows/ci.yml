@@ -1,7 +1,6 @@
 name: CI
 
-on:
-  push
+on: push
 
 jobs:
   lint:
@@ -53,6 +52,16 @@ jobs:
       - run: pnpm --filter svg-sprite-consumer-demo build
       - run: pnpm --filter svg-sprite-webpack-demo build
       - run: pnpm --filter svg-sprite-vue-extract-demo build
+      - name: Publish canary to npm
+        if: github.ref != 'refs/heads/main' && github.event_name == 'push'
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
+          BRANCH=$(echo "${{ github.ref_name }}" | sed 's/[\/_]/-/g')
+          CANARY_VERSION=$(node -p "require('./package.json').version + '-${BRANCH}.${GITHUB_SHA::8}'")
+          npm pkg set version="$CANARY_VERSION"
+          npm publish --tag next --access public
 
   release:
     name: Release
