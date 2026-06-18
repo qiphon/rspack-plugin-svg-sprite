@@ -120,9 +120,6 @@
   },
   "packageManager": "pnpm@10.29.3",
   "release": {
-    "branches": [
-      "main"
-    ],
     "plugins": [
       "@semantic-release/commit-analyzer",
       "@semantic-release/release-notes-generator",
