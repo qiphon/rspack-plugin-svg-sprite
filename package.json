@@ -1,16 +1,16 @@
 {
   "name": "rspack-plugin-svg-sprite",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "SVG sprite loader and plugin for Rspack — drop-in replacement for svg-sprite-loader with inline and extract mode support",
-  "author": "Yichen Zhu",
+  "author": "Yichen Zhu, qiphon",
   "license": "MIT",
-  "homepage": "https://github.com/yichenzhu1337/rspack-plugin-svg-sprite#readme",
+  "homepage": "https://github.com/qiphon/rspack-plugin-svg-sprite",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yichenzhu1337/rspack-plugin-svg-sprite.git"
+    "url": "git+https://github.com/qiphon/rspack-plugin-svg-sprite.git"
   },
   "bugs": {
-    "url": "https://github.com/yichenzhu1337/rspack-plugin-svg-sprite/issues"
+    "url": "https://github.com/qiphon/rspack-plugin-svg-sprite/issues"
   },
   "keywords": [
     "rspack",
@@ -79,6 +79,7 @@
   ],
   "scripts": {
     "build": "tsc",
+    "dev": "tsc --watch",
     "test": "tsc && rstest run",
     "test:ci": "tsc && rstest run --coverage",
     "typecheck": "tsc --noEmit",
@@ -128,5 +129,9 @@
       "@semantic-release/npm",
       "@semantic-release/github"
     ]
+  },
+  "prettier": "@qiphon/prettier-config",
+  "dependencies": {
+    "svgo": "^4"
   }
 }

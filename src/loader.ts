@@ -1,4 +1,6 @@
+
 import * as path from 'path';
+import { optimize } from 'svgo'
 
 export const NAMESPACE = 'rspack-plugin-svg-sprite';
 
@@ -96,18 +98,32 @@ function interopRequire(varName: string, modulePath: string): string {
   );
 }
 
-function svgSpriteLoader(this: LoaderContext, content: string): string {
+function svgSpriteLoader(this: LoaderContext, contentOrg: string): string {
   if (this.cacheable) {
     this.cacheable();
   }
 
-  if (!content.includes('<svg')) {
+  if (!contentOrg.includes('<svg')) {
     throw new Error('rspack-plugin-svg-sprite: Invalid SVG content in ' + this.resourcePath);
   }
 
   const options: LoaderOptions = this.getOptions ? this.getOptions() : {};
   const resourcePath = this.resourcePath;
   const symbolId = generateSymbolId(resourcePath, options);
+
+  // add svgo optimize
+  const content = optimize(contentOrg,{
+    path: symbolId,
+    plugins: [
+      {
+        name: 'prefixIds',
+        params: {
+          prefix: symbolId
+        }
+      }
+    ]
+  })?.data || contentOrg
+
   const viewBox = parseViewBox(content);
   const innerContent = extractSvgInner(content);
   const svgAttrs = extractSvgAttrs(content);
